@@ -1,0 +1,22 @@
+# =============================================================================
+# Git Ignore Configuration for Surveillance Project
+# =============================================================================
+
+# Gigantic Dataset Archive (> 100 MB, strictly blocked by GitHub)
+MOT17.zip
+
+# Large AI Model Weights (> 100 MB, auto-downloaded by Ultralytics on first run)
+yolo11x.pt
+
+# Documentation Excluded from GitHub (kept locally)
+README.md
+
+# Python Bytecode & Cache Dumps
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Operating System Files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "zone_1",
+    "name": "Restricted Perimeter A",
+    "color": [0, 0, 255],
+    "coordinate_type": "normalized",
+    "polygon": [
+      [0.10, 0.40],
+      [0.45, 0.40],
+      [0.45, 0.90],
+      [0.10, 0.90]
+    ]
+  }
+]

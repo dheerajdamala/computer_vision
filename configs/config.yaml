@@ -1,0 +1,54 @@
+# Configuration for Real-Time Surveillance System
+
+model:
+  weights: "yolo11x.pt"
+  confidence: 0.40
+  iou: 0.45
+  tracker: "bytetrack.yaml"  # Ultralytics built-in ByteTrack
+  device: "cpu"              # Change to 0 for CUDA GPU acceleration
+  classes: [0]               # 0 = Person class in COCO
+
+zones_file: "configs/zones.json"
+
+temporal_rules:
+  # Mode: 'live' uses real system clock, 'simulated' advances clock at video frame rate
+  mode: "live"
+  simulated_start_time: "2026-10-08 23:00:00" # Useful for evaluating odd-hour logic on daytime footage
+
+  # Weekly operational schedule. Times are HH:MM:SS.
+  # Any presence outside permitted windows is classified as an ODD_HOUR event.
+  # Supports cross-midnight windows (e.g., start: "22:00:00", end: "06:00:00").
+  schedules:
+    - name: "Weekdays (Mon-Fri)"
+      days: [0, 1, 2, 3, 4]  # 0=Monday, 6=Sunday
+      permitted_windows:
+        - start: "08:00:00"
+          end: "18:00:00"
+    - name: "Saturday"
+      days: [5]
+      permitted_windows:
+        - start: "09:00:00"
+          end: "14:00:00"
+    - name: "Sunday"
+      days: [6]
+      permitted_windows: []  # No permitted windows = all hours are restricted
+
+security_rules:
+  dwell_time_seconds: 2.0    # Minimum continuous presence in zone to confirm violation
+  cooldown_seconds: 15.0     # Delay before logging the same track ID again in the same zone
+
+evidence:
+  save_snapshot: true
+  save_video_clip: true
+  pre_buffer_seconds: 3.0    # Capture 3 seconds before intrusion trigger
+  post_buffer_seconds: 4.0   # Capture 4 seconds after intrusion trigger
+  snapshot_dir: "data/alerts/snapshots"
+  clip_dir: "data/alerts/clips"
+  db_path: "data/surveillance.db"
+
+display:
+  show_hud: true
+  show_zones: true
+  show_foot_point: true
+  show_dwell_timer: true
+  window_name: "Intelligent Surveillance Stream"
